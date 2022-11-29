@@ -215,8 +215,29 @@ function findFirstSingleChar(str) {
  *   5, 3, true, true   => '[3, 5]'
  *
  */
-function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
-  throw new Error('Not implemented');
+function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
+  let start = '';
+  if (isStartIncluded) {
+    start = '[';
+  } else {
+    start = '(';
+  }
+
+  let end = '';
+  if (isEndIncluded) {
+    end = ']';
+  } else {
+    end = ')';
+  }
+
+  let interval = '';
+  if (a < b) {
+    interval = `${a}, ${b}`;
+  } else {
+    interval = `${b}, ${a}`;
+  }
+
+  return start + interval + end;
 }
 
 
@@ -232,8 +253,8 @@ function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
  * 'rotator' => 'rotator'
  * 'noon' => 'noon'
  */
-function reverseString(/* str */) {
-  throw new Error('Not implemented');
+function reverseString(str) {
+  return str.split('').reverse().join('');
 }
 
 
@@ -249,8 +270,8 @@ function reverseString(/* str */) {
  *   87354 => 45378
  *   34143 => 34143
  */
-function reverseInteger(/* num */) {
-  throw new Error('Not implemented');
+function reverseInteger(num) {
+  return +num.toString().split('').reverse().join('');
 }
 
 
@@ -274,8 +295,35 @@ function reverseInteger(/* num */) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(cnn) {
+  const array = cnn.toString().split('');
+  let check = 0;
+  if (array.length % 2 === 0) {
+    for (let i = 0; i < array.length; i += 1) {
+      if (i % 2 === 0) {
+        if (array[i] * 2 > 9) {
+          check += array[i] * 2 - 9;
+        } else {
+          check += array[i] * 2;
+        }
+      } else {
+        check += +array[i];
+      }
+    }
+  } else {
+    for (let i = 0; i < array.length; i += 1) {
+      if (i % 2 !== 0) {
+        if (array[i] * 2 > 9) {
+          check += array[i] * 2 - 9;
+        } else {
+          check += array[i] * 2;
+        }
+      } else {
+        check += +array[i];
+      }
+    }
+  }
+  return check % 10 === 0;
 }
 
 /**
