@@ -340,8 +340,10 @@ function isCreditCardNumber(cnn) {
  *   10000 ( 1+0+0+0+0 = 1 ) => 1
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
-function getDigitalRoot(/* num */) {
-  throw new Error('Not implemented');
+function getDigitalRoot(num) {
+  const array = num.toString().split('');
+  const sum = array.reduce((accumulator, element) => accumulator + +element, 0);
+  return sum < 9 ? sum : getDigitalRoot(sum);
 }
 
 
@@ -366,8 +368,27 @@ function getDigitalRoot(/* num */) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  const openBrackets = ['[', '(', '{', '<'];
+  const bracketsPair = {
+    ']': '[',
+    ')': '(',
+    '}': '{',
+    '>': '<',
+  };
+
+  const stack = [];
+  for (let i = 0; i < str.length; i += 1) {
+    const current = str[i];
+    if (openBrackets.includes(current)) {
+      stack.push(current);
+    } else if (stack.length === 0) {
+      return false;
+    } else if (bracketsPair[current] === stack[stack.length - 1]) {
+      stack.pop();
+    }
+  }
+  return stack.length === 0;
 }
 
 
@@ -408,8 +429,22 @@ function toNaryString(num, n) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/verbalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(pathes) {
+  let result = '';
+  for (let i = 0; i < pathes.length - 1; i += 1) {
+    const current = pathes[i].split('/').slice(0, -1).join('/');
+    const currentFile = pathes[i][0];
+    const next = pathes[i + 1].split('/').slice(0, -1).join('/');
+    const nextFile = pathes[i + 1][0];
+    if (current === next) {
+      result = `${current}/`;
+    } else if (currentFile === '/' && nextFile === '/') {
+      result = '/';
+    } else {
+      return '';
+    }
+  }
+  return result;
 }
 
 
