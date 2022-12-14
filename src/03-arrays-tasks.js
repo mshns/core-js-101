@@ -532,8 +532,22 @@ function distinct(arr) {
  *    "Poland" => ["Lodz"]
  *   }
  */
-function group(/* array, keySelector, valueSelector */) {
-  throw new Error('Not implemented');
+function group(array, keySelector, valueSelector) {
+  const multiMap = new Map();
+
+  array.map((element) => {
+    if (keySelector(element)) multiMap.set(keySelector(element), []);
+    return null;
+  });
+
+  array.map((element) => {
+    const current = multiMap.get(keySelector(element));
+    current.push(valueSelector(element));
+    multiMap.set(keySelector(element), current);
+    return null;
+  });
+
+  return multiMap;
 }
 
 
